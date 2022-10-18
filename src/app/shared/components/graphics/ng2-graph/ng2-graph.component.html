@@ -1,0 +1,7 @@
+<div class="card highlight-card">
+  <a class="white" href="https://www.npmjs.com/package/ng2-charts">Ng-Chart2</a>
+</div>
+
+<canvas class="col-12" baseChart [data]="chartConfig?.barChartData" [options]="chartConfig?.barChartOptions" [plugins]="chartConfig &&  chartConfig.barChartPlugins ? chartConfig.barChartPlugins  : []"
+  [legend]="barChartLegend" [type]="'bar'">
+</canvas>
