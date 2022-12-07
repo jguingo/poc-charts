@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
-import { ChartComponentLike, ChartConfiguration } from 'chart.js';
-import DataLabelsPlugin from 'chartjs-plugin-datalabels';
+import {  ChartConfiguration , Plugin } from 'chart.js';
 import { IQuestion } from '../interfaces/question';
 import { GraphiqueService } from '../models/question-service';
-
+import DataLabelsPlugin from 'chartjs-plugin-datalabels';
 export interface INg2ChartConfig
 {
   barChartData : ChartConfiguration<'bar'>['data'],
   barChartOptions : ChartConfiguration<'bar'>['options'],
-  barChartPlugins : ChartComponentLike[] | undefined
+  barChartPlugins : Plugin[]
 }
 
 @Injectable({

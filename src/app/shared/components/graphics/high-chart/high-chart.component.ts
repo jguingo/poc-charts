@@ -5,12 +5,14 @@ import { IQuestion } from 'src/app/shared/interfaces/question';
 import { HighChartGraphiqueService } from 'src/app/shared/services/high-chart-graphique.service';
 import { IGraphiqueComponent } from 'src/app/shared/interfaces/igraphique-component';
 import { GraphiqueService } from 'src/app/shared/models/question-service';
+import { BehaviorSubject, map, Observable } from 'rxjs';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-high-chart',
   templateUrl: './high-chart.component.html',
   styleUrls: ['./high-chart.component.scss'],
   standalone: true,
-  imports: [HighchartsChartModule],
+  imports: [HighchartsChartModule, CommonModule],
   providers : [{
     provide : GraphiqueService,
     useClass : HighChartGraphiqueService
@@ -21,7 +23,7 @@ export class HighChartComponent implements OnInit, IGraphiqueComponent {
 
   Highcharts: typeof Highcharts = Highcharts; // required
   chartConstructor: string = 'chart'; // optional string, defaults to 'chart'
-  chartOptions: Highcharts.Options = {}; // required
+  chartOptions: Observable<Highcharts.Options> | null = null;// {}; // required
   chartCallback: Highcharts.ChartCallbackFunction = function (chart) { } // optional function, defaults to null
   updateFlag: boolean = false; // optional boolean
   oneToOneFlag: boolean = true; // optional boolean, defaults to false
@@ -30,16 +32,14 @@ export class HighChartComponent implements OnInit, IGraphiqueComponent {
   constructor(private service: GraphiqueService) {}
 
   ngOnInit(): void {
-    this.loadData();
+    this.loadData(); 
   }
 
   loadData() : void {
-    this.service.load().subscribe({
-      next: (data: IQuestion) => {
-        this.chartOptions = this.service.transform(data);
-      },
-      error: (e) => console.error(e),
-      complete: () => console.info('complete')
-    });
+    this.chartOptions = this.service.load()
+    .pipe(
+      map((data : IQuestion ) => {
+       return this.service.transform(data) as Highcharts.Options;})
+    );
   }
 }

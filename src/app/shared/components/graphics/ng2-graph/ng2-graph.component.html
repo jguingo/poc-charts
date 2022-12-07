@@ -1,7 +1,11 @@
 <div class="card highlight-card">
   <a class="white" href="https://www.npmjs.com/package/ng2-charts">Ng-Chart2</a>
 </div>
-
-<canvas class="col-12" baseChart [data]="chartConfig?.barChartData" [options]="chartConfig?.barChartOptions" [plugins]="chartConfig &&  chartConfig.barChartPlugins ? chartConfig.barChartPlugins  : []"
-  [legend]="barChartLegend" [type]="'bar'">
-</canvas>
+<ng-container *ngIf="(chartConfig | async) as options">
+  <canvas class="col-12" baseChart [data]="options.barChartData" [options]="options.barChartOptions"
+    [plugins]="options.barChartPlugins ? options.barChartPlugins  : []" [legend]="barChartLegend" [type]="'bar'">
+  </canvas>
+  <p class="p-code">npm install ng2-charts</p>
+  <p class="p-code">npm install chart.js</p>
+  <p class="p-code">npm install chartjs-plugin-datalabels</p>
+</ng-container>
